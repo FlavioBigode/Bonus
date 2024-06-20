@@ -1,0 +1,78 @@
+colecao_obras = []
+
+def criar_obra(titulo, data_criacao, tema, estilo_artistico, descricao, tecnica, autor, localizacao):
+    try:
+        obra = {
+            "titulo": titulo,
+            "data_criacao": data_criacao,
+            "tema": tema,
+            "estilo_artistico": estilo_artistico,
+            "descricao": descricao,
+            "tecnica": tecnica,
+            "autor": autor,
+            "localizacao": localizacao,
+            "documentos": [],
+            "pessoa_retratada": None
+        }
+        return obra
+    except ValueError as e:
+        print(f"Erro ao criar obra: {e}")
+        return None
+    except Exception as e:
+        print(f"Ocorreu um erro: {e}")
+        return None
+
+def adicionar_obra_na_colecao(obra):
+    try:
+        colecao_obras.append(obra)
+        print(f"Obra '{obra['titulo']}' foi adicionada à coleção.")
+    except Exception as e:
+        print(f"Erro ao adicionar a obra: {e}")
+
+def buscar_obra_por_titulo(titulo):
+    try:
+        for obra in colecao_obras:
+            if obra["titulo"].lower() == titulo.lower():
+                return obra
+        print(f"Não foi encontrada nenhuma obra com o título '{titulo}'.")
+        return None
+    except Exception as e:
+        print(f"Erro na busca de obras por título: {e}")
+        return None
+
+def buscar_obras_por_autor(autor):
+    try:
+        obras_autor = []
+        for obra in colecao_obras:
+            if obra["autor"].lower() == autor.lower():
+                obras_autor.append(obra)
+        if len(obras_autor) == 0:
+            print(f"Não foram encontradas obras feitas por '{autor}'.")
+        return obras_autor
+    except Exception as e:
+        print(f"Erro na busca de obras por autor: {e}")
+        return None
+
+def main():
+    try:
+        obra1 = criar_obra("Monalisa", "1503-1519", "Retrato", "Renascença", "Retrato da Monalisa", "Óleo sobre tela", "Leonardo da Vinci", "Sala 1")
+        if obra1:
+            adicionar_obra_na_colecao(obra1)
+
+        obra2 = criar_obra("O Grito", "1893", "Expressionismo", "Expressionismo", "Pintura expressionista", "Têmpera sobre tela", "Edvard Munch", "Sala 2")
+        if obra2:
+            adicionar_obra_na_colecao(obra2)
+
+        obra_encontrada = buscar_obra_por_titulo("Monalisa")
+        if obra_encontrada:
+            print(f"Obra encontrada: {obra_encontrada['titulo']}")
+
+        obras_autor = buscar_obras_por_autor("Leonardo da Vinci")
+        if obras_autor:
+            print(f"Obras do autor '{obras_autor[0]['autor']}': {', '.join([obra['titulo'] for obra in obras_autor])}")
+
+    except Exception as e:
+        print(f"Erro inesperado na função main: {e}")
+
+if __name__ == "__main__":
+    main()
